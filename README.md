@@ -3,6 +3,11 @@
 Bring-up project on a Raspberry Pi 4 Model B: I cross-compiled upstream U-Boot, loaded it through the Pi firmware, used a 3.3 V USB-UART adapter as a headless console (no HDMI monitor), and booted Raspberry Pi OS manually from the U-Boot prompt.
 
 
+<p align="center">
+  <img src="images/01-hardware-setup.jpg" width="760" alt="Raspberry Pi 4 Model B with FTDI USB-UART adapter, three jumper wires and USB boot drive">
+  <br><sub>The setup: Raspberry Pi 4 Model B (board marking visible), FTDI USB-UART adapter with three jumper wires to the GPIO header, USB flash drive as boot media, laptop running Tera Term.</sub>
+</p>
+
 ## Scope (read this first)
 - Built **unmodified upstream U-Boot** with the stock `rpi_4_defconfig`. No U-Boot source changes.
 - Used an existing Raspberry Pi OS image (Debian 13, kernel 6.18.34+rpt-rpi-v8). I did not build a kernel or root filesystem.
@@ -33,6 +38,17 @@ Wiring (details in [docs/01-hardware-wiring.md](docs/01-hardware-wiring.md)): Pi
 | [images/02-firmware-boot-log-tera-term.jpg](images/02-firmware-boot-log-tera-term.jpg) | Pi firmware boot log over serial (Tera Term) |
 | [images/04-uboot-to-linux-login-REDACTED.jpg](images/04-uboot-to-linux-login-REDACTED.jpg) | U-Boot `fatload` + `booti`, then Linux login (network details blacked out) |
 | [images/03-ssh-service-logs.png](images/03-ssh-service-logs.png) | `sshd` listening on port 22 after restart |
+
+### Gallery
+<table>
+<tr>
+<td width="50%"><img src="images/02-firmware-boot-log-tera-term.jpg" alt="Pi firmware boot log in Tera Term"><br><sub>Pi firmware boot log over the serial console (Tera Term).</sub></td>
+<td width="50%"><img src="images/04-uboot-to-linux-login-REDACTED.jpg" alt="U-Boot fatload and booti, then Linux login"><br><sub>U-Boot <code>fatload</code> + <code>booti</code>, then the Linux login (network details blacked out).</sub></td>
+</tr>
+<tr>
+<td colspan="2"><img src="images/03-ssh-service-logs.png" width="60%" alt="sshd listening on port 22"><br><sub><code>sshd</code> listening on port 22 after restart.</sub></td>
+</tr>
+</table>
 
 ## Problems found and how they were handled
 See [docs/04-troubleshooting-log.md](docs/04-troubleshooting-log.md). Highlights: swapped TX/RX gave a blank terminal; a typo in `config.txt`; missing `gnutls` header at build time; `nmcli` Wi-Fi error fixed by deleting the saved connection; U-Boot MMC and Ethernet timeouts (not fixed).
