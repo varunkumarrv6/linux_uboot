@@ -1,0 +1,67 @@
+
+
+#!/bin/bash
+
+# ==========================================
+# 1. UPDATE HOST AND INSTALL DEPENDENCIES
+# ==========================================
+
+sudo apt update
+
+sudo apt install -y \
+    git \
+    build-essential \
+    bc \
+    bison \
+    flex \
+    libssl-dev \
+    device-tree-compiler \
+    u-boot-tools \
+    wget \
+    curl \
+    file \
+    screen
+
+# ==========================================
+# 2. INSTALL AARCH64 CROSS-COMPILER
+# ==========================================
+
+sudo apt install -y gcc-aarch64-linux-gnu
+
+# Verify compiler installation
+aarch64-linux-gnu-gcc --version
+
+# ==========================================
+# 3. DOWNLOAD U-BOOT SOURCE
+# ==========================================
+
+cd ~
+
+git clone https://github.com/u-boot/u-boot.git
+
+# Enter U-Boot source directory
+cd ~/u-boot
+
+# ==========================================
+# 4. CONFIGURE FOR RASPBERRY PI 4
+# ==========================================
+
+make CROSS_COMPILE=aarch64-linux-gnu- rpi_4_defconfig
+
+# ==========================================
+# 5. BUILD U-BOOT
+# ==========================================
+
+make CROSS_COMPILE=aarch64-linux-gnu- -j$(nproc)
+
+# ==========================================
+# 6. VERIFY BUILD OUTPUT
+# ==========================================
+
+ls -lh u-boot.bin
+
+file u-boot.bin
+
+# ==========================================
+# BUILD COMPLETE
+# ==========================================

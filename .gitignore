@@ -1,0 +1,6 @@
+u-boot/
+*.log
+*.img
+*.bin
+.ssh/
+.bash_history
